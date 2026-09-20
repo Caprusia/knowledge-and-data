@@ -10,6 +10,8 @@ ex:Netherlands ex:hasName "The Netherlands" .
 ex:Netherlands ex:neighbours ex:Belgium .
 ex:Netherlands ex:hasCapital ex:Amsterdam .
 ex:Amsterdam a ex:Capital .
+ex:Oradea a ex:Capital .
+ex:Bucharest a ex:Capital .
 ex:Amsterdam ex:closeBy ex:Germany .
 ex:Germany a ex:EuropeanCountry .
 ex:Netherlands ex:containsCity ex:Rotterdam .

@@ -1,0 +1,61 @@
+@prefix ns1: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix ns2: <http://example.com/kad/> .
+@prefix ns3: <http://dbpedia.org/ontology/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ns2:Bucharest a ns2:Capital ;
+    ns3:populationTotal "1877155" ;
+    ns1:lat "44.43249893188477" ;
+    ns1:long "26.10388946533203" .
+
+ns2:Netherlands a ns2:Country ;
+    ns2:contains ns2:Ijsselmeer ;
+    ns2:containsCity ns2:Rotterdam ;
+    ns2:hasCapital ns2:Amsterdam ;
+    ns2:hasName "The Netherlands" ;
+    ns2:neighbours ns2:Belgium .
+
+ns2:Oradea a ns2:Capital ;
+    ns3:populationTotal "183105" ;
+    ns1:lat "47.07222366333008" ;
+    ns1:long "21.92111206054688" .
+
+ns2:hasCapital rdfs:range ns2:Capital ;
+    rdfs:subPropertyOf ns2:containsCity .
+
+ns2:neighbours rdfs:subPropertyOf ns2:closeBy .
+
+ns2:Amsterdam a ns2:Capital ;
+    ns3:populationTotal "933680" ;
+    ns2:closeBy ns2:Germany ;
+    ns1:lat "52.37277603149414" ;
+    ns1:long "4.893610954284668" .
+
+ns2:Belgium a ns2:Country .
+
+ns2:Berlin ns3:populationTotal "3596999" ;
+    ns1:lat "52.52000045776367" ;
+    ns1:long "13.40499973297119" .
+
+ns2:EuropeanCountry rdfs:subClassOf ns2:Country .
+
+ns2:Germany a ns2:EuropeanCountry ;
+    ns2:hasCapital ns2:Berlin .
+
+ns2:Rotterdam ns3:populationTotal "868135" ;
+    ns1:lat "51.91999816894531" ;
+    ns1:long "4.480000019073486" .
+
+ns2:closeBy rdfs:domain ns2:Location ;
+    rdfs:range ns2:Location .
+
+ns2:containsCity rdfs:domain ns2:Country ;
+    rdfs:range ns2:City ;
+    rdfs:subPropertyOf ns2:contains .
+
+ns2:City rdfs:subClassOf ns2:Location .
+
+ns2:Capital rdfs:subClassOf ns2:City .
+
+ns2:Country rdfs:subClassOf ns2:Location .
+
