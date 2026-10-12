@@ -1,0 +1,354 @@
+@prefix : <http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/2001/XMLSchema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix kitchen: <http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#> .
+@base <http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#> .
+
+<http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory> rdf:type owl:Ontology ;
+                                                                         rdfs:comment "An Ordered Inventory System for Restaurants: Equipment and Investment Planning Ontology" .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#assignedToStation
+kitchen:assignedToStation rdf:type owl:ObjectProperty ,
+                                   owl:AsymmetricProperty ,
+                                   owl:IrreflexiveProperty ;
+                          rdfs:domain kitchen:Chef ;
+                          rdfs:range kitchen:KitchenStation .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#hasSafetyRule
+kitchen:hasSafetyRule rdf:type owl:ObjectProperty ,
+                               owl:IrreflexiveProperty ;
+                      rdfs:domain kitchen:Equipment ;
+                      rdfs:range kitchen:SafetyRule .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#locatedInStation
+kitchen:locatedInStation rdf:type owl:ObjectProperty ,
+                                  owl:FunctionalProperty ,
+                                  owl:AsymmetricProperty ,
+                                  owl:IrreflexiveProperty ;
+                         rdfs:domain kitchen:Equipment ;
+                         rdfs:range kitchen:KitchenStation .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#requiresUtility
+kitchen:requiresUtility rdf:type owl:ObjectProperty ,
+                                 owl:AsymmetricProperty ,
+                                 owl:IrreflexiveProperty ;
+                        rdfs:domain kitchen:Equipment ;
+                        rdfs:range kitchen:UtilityRequirement .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#hasCost
+kitchen:hasCost rdf:type owl:DatatypeProperty ,
+                         owl:FunctionalProperty ;
+                rdfs:domain kitchen:Equipment ;
+                rdfs:range xsd:decimal .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#quantityInStock
+kitchen:quantityInStock rdf:type owl:DatatypeProperty ,
+                                 owl:FunctionalProperty ;
+                        rdfs:domain kitchen:InventoryItem ;
+                        rdfs:range xsd:integer .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#ruleDescription
+kitchen:ruleDescription rdf:type owl:DatatypeProperty ,
+                                 owl:FunctionalProperty ;
+                        rdfs:domain kitchen:SafetyRule ;
+                        rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#temp
+kitchen:temp rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain kitchen:RefrigerationUnit ;
+             rdfs:range xsd:decimal .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#Chef
+kitchen:Chef rdf:type owl:Class ;
+             rdfs:subClassOf foaf:Person .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#CookingAppliance
+kitchen:CookingAppliance rdf:type owl:Class ;
+                         rdfs:subClassOf kitchen:Equipment ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty kitchen:requiresUtility ;
+                                           owl:someValuesFrom kitchen:UtilityRequirement
+                                         ] .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#Equipment
+kitchen:Equipment rdf:type owl:Class ;
+                  rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                    owl:onProperty kitchen:locatedInStation ;
+                                    owl:allValuesFrom kitchen:KitchenStation
+                                  ] .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#InventoryItem
+kitchen:InventoryItem rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#KitchenStation
+kitchen:KitchenStation rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#RefrigerationUnit
+kitchen:RefrigerationUnit rdf:type owl:Class ;
+                          rdfs:subClassOf kitchen:Equipment .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#SafetyRule
+kitchen:SafetyRule rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#StorageUnit
+kitchen:StorageUnit rdf:type owl:Class ;
+                    rdfs:subClassOf kitchen:Equipment .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#Utensils
+kitchen:Utensils rdf:type owl:Class ;
+                 rdfs:subClassOf kitchen:Equipment .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#UtilityRequirement
+kitchen:UtilityRequirement rdf:type owl:Class .
+
+
+###  http://xmlns.com/foaf/0.1/Person
+foaf:Person rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#CastIronPan12Inch
+kitchen:CastIronPan12Inch rdf:type owl:NamedIndividual ,
+                                   kitchen:Utensils ;
+                          kitchen:hasSafetyRule kitchen:HeatGloveRequirement ;
+                          kitchen:locatedInStation kitchen:SauteStation ;
+                          kitchen:hasCost 85.00 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#CharcoalGrill
+kitchen:CharcoalGrill rdf:type owl:NamedIndividual ,
+                               kitchen:CookingAppliance ;
+                      kitchen:hasSafetyRule kitchen:HeatGloveRequirement ;
+                      kitchen:locatedInStation kitchen:GrillStation ;
+                      kitchen:requiresUtility kitchen:GasRequirement_30kW ;
+                      kitchen:hasCost 2200.00 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#ChefKnife8Inch
+kitchen:ChefKnife8Inch rdf:type owl:NamedIndividual ,
+                                kitchen:Utensils ;
+                       kitchen:hasSafetyRule kitchen:HeatGloveRequirement ;
+                       kitchen:locatedInStation kitchen:PrepStation ;
+                       kitchen:hasCost 120.00 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#Chef_Antoine
+kitchen:Chef_Antoine rdf:type owl:NamedIndividual ,
+                              kitchen:Chef ;
+                     kitchen:assignedToStation kitchen:PrepStation .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#Chef_Elena
+kitchen:Chef_Elena rdf:type owl:NamedIndividual ,
+                            kitchen:Chef ;
+                   kitchen:assignedToStation kitchen:GrillStation .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#Chef_Marco
+kitchen:Chef_Marco rdf:type owl:NamedIndividual ,
+                            kitchen:Chef ;
+                   kitchen:assignedToStation kitchen:SauteStation .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#ChemicalStorageCabinet
+kitchen:ChemicalStorageCabinet rdf:type owl:NamedIndividual ,
+                                        kitchen:StorageUnit ;
+                               kitchen:locatedInStation kitchen:PrepStation ;
+                               kitchen:hasCost 400.00 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#CommercialGasRange
+kitchen:CommercialGasRange rdf:type owl:NamedIndividual ,
+                                    kitchen:CookingAppliance ;
+                           kitchen:hasSafetyRule kitchen:HeatGloveRequirement ;
+                           kitchen:locatedInStation kitchen:SauteStation ;
+                           kitchen:requiresUtility kitchen:GasRequirement_30kW ;
+                           kitchen:hasCost 3500.00 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#DryFoodRacking
+kitchen:DryFoodRacking rdf:type owl:NamedIndividual ,
+                                kitchen:StorageUnit ;
+                       kitchen:locatedInStation kitchen:PrepStation ;
+                       kitchen:hasCost 600.00 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#ElectricDeepFryer
+kitchen:ElectricDeepFryer rdf:type owl:NamedIndividual ,
+                                   kitchen:CookingAppliance ;
+                          kitchen:hasSafetyRule kitchen:HeatGloveRequirement ;
+                          kitchen:locatedInStation kitchen:SauteStation ;
+                          kitchen:requiresUtility kitchen:ElectricRequirement_230V ;
+                          kitchen:hasCost 1800.00 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#ElectricRequirement_230V
+kitchen:ElectricRequirement_230V rdf:type owl:NamedIndividual ,
+                                          kitchen:UtilityRequirement .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#GasRequirement_30kW
+kitchen:GasRequirement_30kW rdf:type owl:NamedIndividual ,
+                                     kitchen:UtilityRequirement .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#GeneralExhaustHood
+kitchen:GeneralExhaustHood rdf:type owl:NamedIndividual ,
+                                    kitchen:Equipment ;
+                           kitchen:hasSafetyRule kitchen:VentilationRequirement ;
+                           kitchen:locatedInStation kitchen:SauteStation ;
+                           kitchen:hasCost 1200.00 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#GrillStation
+kitchen:GrillStation rdf:type owl:NamedIndividual ,
+                              kitchen:KitchenStation .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#HandWashSink
+kitchen:HandWashSink rdf:type owl:NamedIndividual ,
+                              kitchen:Equipment ;
+                     kitchen:locatedInStation kitchen:PrepStation ;
+                     kitchen:hasCost 300.00 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#HeatGloveRequirement
+kitchen:HeatGloveRequirement rdf:type owl:NamedIndividual ,
+                                      kitchen:SafetyRule ;
+                             kitchen:ruleDescription "Wear heat-resistant gloves during operation" .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#OliveOil5L
+kitchen:OliveOil5L rdf:type owl:NamedIndividual ,
+                            kitchen:InventoryItem ;
+                   kitchen:quantityInStock 12 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#PrepStation
+kitchen:PrepStation rdf:type owl:NamedIndividual ,
+                             kitchen:KitchenStation .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#ReachInRefrigerator
+kitchen:ReachInRefrigerator rdf:type owl:NamedIndividual ,
+                                     kitchen:RefrigerationUnit ;
+                            kitchen:hasSafetyRule kitchen:TempLogRule ;
+                            kitchen:locatedInStation kitchen:PrepStation ;
+                            kitchen:requiresUtility kitchen:ElectricRequirement_230V ;
+                            kitchen:hasCost 2800.00 ;
+                            kitchen:temp 3.5 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#RibeyeSteakBatch
+kitchen:RibeyeSteakBatch rdf:type owl:NamedIndividual ,
+                                  kitchen:InventoryItem ;
+                         kitchen:quantityInStock 45 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#SanitizingSolution
+kitchen:SanitizingSolution rdf:type owl:NamedIndividual ,
+                                    kitchen:InventoryItem ;
+                           kitchen:quantityInStock 8 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#SauteStation
+kitchen:SauteStation rdf:type owl:NamedIndividual ,
+                              kitchen:KitchenStation .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#SpiceRackWallUnit
+kitchen:SpiceRackWallUnit rdf:type owl:NamedIndividual ,
+                                   kitchen:StorageUnit ;
+                          kitchen:locatedInStation kitchen:SauteStation ;
+                          kitchen:hasCost 150.00 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#StainlessSteelPrepTable
+kitchen:StainlessSteelPrepTable rdf:type owl:NamedIndividual ,
+                                         kitchen:Equipment ;
+                                kitchen:locatedInStation kitchen:PrepStation ;
+                                kitchen:hasCost 450.00 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#StainlessSteelTongs
+kitchen:StainlessSteelTongs rdf:type owl:NamedIndividual ,
+                                     kitchen:Utensils ;
+                            kitchen:locatedInStation kitchen:GrillStation ;
+                            kitchen:hasCost 15.00 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#TempLogRule
+kitchen:TempLogRule rdf:type owl:NamedIndividual ,
+                             kitchen:SafetyRule ;
+                    kitchen:ruleDescription "Log internal temperature twice daily" .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#UndercounterCooler
+kitchen:UndercounterCooler rdf:type owl:NamedIndividual ,
+                                    kitchen:RefrigerationUnit ;
+                           kitchen:hasSafetyRule kitchen:TempLogRule ;
+                           kitchen:locatedInStation kitchen:SauteStation ;
+                           kitchen:requiresUtility kitchen:ElectricRequirement_230V ;
+                           kitchen:hasCost 1500.00 ;
+                           kitchen:temp 4.0 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#VentilationRequirement
+kitchen:VentilationRequirement rdf:type owl:NamedIndividual ,
+                                        kitchen:SafetyRule ;
+                               kitchen:ruleDescription "Ensure hood exhaust ventilation is active" .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#WalkInFreezer
+kitchen:WalkInFreezer rdf:type owl:NamedIndividual ,
+                               kitchen:RefrigerationUnit ;
+                      kitchen:hasSafetyRule kitchen:TempLogRule ;
+                      kitchen:locatedInStation kitchen:PrepStation ;
+                      kitchen:requiresUtility kitchen:ElectricRequirement_230V ;
+                      kitchen:hasCost 6500.00 ;
+                      kitchen:temp -18.0 .
+
+
+###  http://www.semanticweb.org/boris/ontologies/2026/restaurant-inventory#WaterDrainRequirement
+kitchen:WaterDrainRequirement rdf:type owl:NamedIndividual ,
+                                       kitchen:UtilityRequirement .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
