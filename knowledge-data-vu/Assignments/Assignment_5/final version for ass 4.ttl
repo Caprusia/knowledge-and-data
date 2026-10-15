@@ -1,0 +1,243 @@
+@prefix : <http://www.semanticweb.org/boris/ontologies/2026/8/untitled-ontology-2/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix climb: <http://example.org/boris/climbing#> .
+@base <http://www.semanticweb.org/boris/ontologies/2026/8/untitled-ontology-2/> .
+
+<http://example.org/boris/climbing#> rdf:type owl:Ontology ;
+                                      dc:creator "Boris Fortuin" ;
+                                      dc:description "This is about climbing including climbers, climbing routes, climbing areas, grades, and climbing equipment. Its for everyone that like climbing or wants to work in the industry of climbing" ;
+                                      rdfs:label "Climbing Ontology" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/creator
+dc:creator rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/description
+dc:description rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.org/boris/climbing#hasClimbingPartner
+climb:hasClimbingPartner rdf:type owl:ObjectProperty ,
+                                  owl:SymmetricProperty ;
+                         rdfs:domain climb:Climber ;
+                         rdfs:range climb:Climber .
+
+
+###  http://example.org/boris/climbing#hasGrade
+climb:hasGrade rdf:type owl:ObjectProperty ;
+               rdfs:domain climb:ClimbingRoute ;
+               rdfs:range climb:Grade .
+
+
+###  http://example.org/boris/climbing#isPartOf
+climb:isPartOf rdf:type owl:ObjectProperty ,
+                        owl:TransitiveProperty .
+
+
+###  http://example.org/boris/climbing#locatedIn
+climb:locatedIn rdf:type owl:ObjectProperty ,
+                         owl:IrreflexiveProperty ;
+                rdfs:domain climb:ClimbingRoute ;
+                rdfs:range climb:ClimbingArea .
+
+
+###  http://example.org/boris/climbing#practisesStyle
+climb:practisesStyle rdf:type owl:ObjectProperty ;
+                     rdfs:domain climb:Climber ;
+                     rdfs:range climb:ClimbingStyle .
+
+
+###  http://example.org/boris/climbing#requiresEquipement
+climb:requiresEquipement rdf:type owl:ObjectProperty ;
+                         rdfs:domain climb:ClimbingStyle ;
+                         rdfs:range climb:ClimbingEquipment .
+
+
+###  http://example.org/boris/climbing#usedBy
+climb:usedBy rdf:type owl:ObjectProperty .
+
+
+###  http://example.org/boris/climbing#usesEquipment
+climb:usesEquipment rdf:type owl:ObjectProperty ;
+                    rdfs:domain climb:Climber ;
+                    rdfs:range climb:ClimbingEquipment .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.org/boris/climbing#hasDifficultyGrade
+climb:hasDifficultyGrade rdf:type owl:DatatypeProperty ;
+                         rdfs:range xsd:string .
+
+
+###  http://example.org/boris/climbing#hasHeight
+climb:hasHeight rdf:type owl:DatatypeProperty ;
+                rdfs:range xsd:decimal .
+
+
+###  http://example.org/boris/climbing#hasLength
+climb:hasLength rdf:type owl:DatatypeProperty ;
+                rdfs:range xsd:decimal .
+
+
+###  http://example.org/boris/climbing#hasName
+climb:hasName rdf:type owl:DatatypeProperty ,
+                       owl:FunctionalProperty ;
+              rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.org/boris/climbing#Climber
+climb:Climber rdf:type owl:Class ;
+              rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                owl:onProperty climb:hasClimbingPartner ;
+                                owl:someValuesFrom climb:Climber
+                              ] .
+
+
+###  http://example.org/boris/climbing#ClimbingArea
+climb:ClimbingArea rdf:type owl:Class ;
+                   owl:equivalentClass [ rdf:type owl:Restriction ;
+                                         owl:onProperty [ owl:inverseOf climb:locatedIn
+                                                        ] ;
+                                         owl:someValuesFrom climb:ClimbingRoute
+                                       ] ;
+                   rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                     owl:onProperty [ owl:inverseOf climb:locatedIn
+                                                    ] ;
+                                     owl:someValuesFrom climb:ClimbingRoute
+                                   ] .
+
+
+###  http://example.org/boris/climbing#ClimbingEquipment
+climb:ClimbingEquipment rdf:type owl:Class .
+
+
+###  http://example.org/boris/climbing#ClimbingRoute
+climb:ClimbingRoute rdf:type owl:Class ;
+                    owl:equivalentClass [ rdf:type owl:Restriction ;
+                                          owl:onProperty climb:locatedIn ;
+                                          owl:someValuesFrom climb:ClimbingArea
+                                        ] ;
+                    rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                      owl:onProperty climb:locatedIn ;
+                                      owl:someValuesFrom climb:ClimbingArea
+                                    ] .
+
+
+###  http://example.org/boris/climbing#ClimbingStyle
+climb:ClimbingStyle rdf:type owl:Class .
+
+
+###  http://example.org/boris/climbing#Grade
+climb:Grade rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://example.org/boris/climbing#AkexClimber
+climb:AkexClimber rdf:type owl:NamedIndividual ,
+                           climb:Climber ;
+                  climb:practisesStyle climb:Bouldering ;
+                  climb:usesEquipment climb:HarnessX ;
+                  climb:hasName "Alex Climber" .
+
+
+###  http://example.org/boris/climbing#BlueArchRoute
+climb:BlueArchRoute rdf:type owl:NamedIndividual ,
+                             climb:ClimbingRoute ;
+                    climb:locatedIn climb:FontaineBleau ;
+                    climb:hasLength 25 ;
+                    climb:hasName "Blue Arch Route" .
+
+
+###  http://example.org/boris/climbing#Bouldering
+climb:Bouldering rdf:type owl:NamedIndividual ;
+                 climb:requiresEquipement climb:crashpad ;
+                 climb:hasName "Bouldering" .
+
+
+###  http://example.org/boris/climbing#FontaineBleau
+climb:FontaineBleau rdf:type owl:NamedIndividual ,
+                             climb:ClimbingArea ;
+                    climb:hasName "Fontainebleau" .
+
+
+###  http://example.org/boris/climbing#GraniteLineRoute
+climb:GraniteLineRoute rdf:type owl:NamedIndividual ;
+                       climb:hasGrade climb:V5 ;
+                       climb:locatedIn climb:RedRiverGorge ;
+                       climb:hasName "Granite Line Route" .
+
+
+###  http://example.org/boris/climbing#HarnessX
+climb:HarnessX rdf:type owl:NamedIndividual ,
+                        climb:ClimbingEquipment ;
+               climb:usedBy climb:AkexClimber ;
+               climb:hasName "harness X" .
+
+
+###  http://example.org/boris/climbing#MayaClimber
+climb:MayaClimber rdf:type owl:NamedIndividual ;
+                  climb:hasClimbingPartner climb:AkexClimber ;
+                  climb:usesEquipment climb:Rope70m ;
+                  climb:hasName "Maya Climber" .
+
+
+###  http://example.org/boris/climbing#RedRiverGorge
+climb:RedRiverGorge rdf:type owl:NamedIndividual ;
+                    climb:hasName "Red River Gorge" .
+
+
+###  http://example.org/boris/climbing#Rope70m
+climb:Rope70m rdf:type owl:NamedIndividual ;
+              climb:usedBy climb:MayaClimber ;
+              climb:hasName "70 metre rope" .
+
+
+###  http://example.org/boris/climbing#SportClimbing
+climb:SportClimbing rdf:type owl:NamedIndividual ,
+                             climb:ClimbingStyle ;
+                    climb:requiresEquipement climb:HarnessX ;
+                    climb:hasName "Sport Climbing" .
+
+
+###  http://example.org/boris/climbing#V4
+climb:V4 rdf:type owl:NamedIndividual ,
+                  climb:Grade ;
+         climb:isPartOf climb:FontaineBleau ;
+         climb:hasName "V4" .
+
+
+###  http://example.org/boris/climbing#V5
+climb:V5 rdf:type owl:NamedIndividual ;
+         climb:isPartOf climb:RedRiverGorge ;
+         climb:hasName "V5" .
+
+
+###  http://example.org/boris/climbing#crashpad
+climb:crashpad rdf:type owl:NamedIndividual ,
+                        climb:ClimbingEquipment .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

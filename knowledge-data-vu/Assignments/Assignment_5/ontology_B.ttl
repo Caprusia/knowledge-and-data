@@ -1,0 +1,15 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.rdfs.org/2000/01/rdf-schema#> .
+@prefix outdoor: <http://outdoor-sports.org/ontology#> .
+
+<http://outdoor-sports.org/ontology#> a owl:Ontology .
+
+outdoor:Athlete a owl:Class .
+outdoor:Gear a owl:Class .
+outdoor:ClimbingSite a owl:Class .
+
+outdoor:utilizesGear a owl:ObjectProperty .
+outdoor:isUsedBy a owl:ObjectProperty .
+
+outdoor:FontainebleauForest a owl:NamedIndividual , outdoor:ClimbingSite .
+outdoor:YosemiteValley a owl:NamedIndividual , outdoor:ClimbingSite .
